@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/optimization_prefs">
+        <ListPreference
+            android:key="screen_off_counter"
+            android:title="@string/counter_title"
+            android:entries="@array/counter_list"
+            android:entryValues="@array/counter_list_values"
+            android:defaultValue="8"/>
+    </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:title="@string/vibratePref"
+        android:defaultValue="true"
+        android:key="vibrate_pref" />
+
+    <CheckBoxPreference
+        android:title="@string/locationPref"
+        android:defaultValue="true"
+        android:key="location_pref" />
+</PreferenceScreen>

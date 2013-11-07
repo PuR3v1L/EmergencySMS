@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Emergency SMS</string>
+    <string name="action_settings">Preferences</string>
+    <string name="sms_text_hint">Enter your preferred text</string>
+    <string name="phone_number_hint">Enter phone number</string>
+    <string name="button_save">Save</string>
+    <string name="contact_button_description">Contacts Button</string>
+    <string name="select_contact_phone_number_and_type">Select Contact Phone Number</string>
+    <string name="hint_about_phone_numbers">You can add more than one number, by entering # between numbers</string>
+    <string name="service_not_running">Alert SMS Disabled</string>
+    <string name="service_running">Alert SMS Enabled</string>
+    <string name="optimization_prefs">Optimization</string>
+    <string name="counter_title">Number of clicks</string>
+    <string name="screen_off_counter">Number of clicks set to:</string>
+    <string name="titlePrefs">Preferences</string>
+    <string name="vibratePref">Vibration</string>
+    <string name="vibrate_on">Vibration is enabled when sending SMS</string>
+    <string name="vibrate_off">Vibration is disabled when sending SMS</string>
+    <string name="locationPref">Localization</string>
+    <string name="location_off">Your coordinates won\'t be sent</string>
+    <string name="location_on">Your coordinates will be sent</string>
+
+
+</resources>

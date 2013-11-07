@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="30dp"
+              android:orientation="vertical"
+              tools:context=".MainActivity">
+
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content">
+
+
+        <ImageButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/contact"
+            android:layout_alignParentRight="true"
+            android:id="@+id/buttonContacts"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/contact_button_description"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phoneNumber"
+            android:inputType="phone"
+            android:hint="@string/phone_number_hint"
+            android:digits="0123456789+#"
+            android:layout_toLeftOf="@id/buttonContacts"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/bulb_icon"
+            android:src="@drawable/bulb"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:layout_centerVertical="true"
+            android:textColor="@color/YellowGreen"
+            android:layout_toRightOf="@id/bulb_icon"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/hint_about_phone_numbers"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"/>
+
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textToBeSent"
+        android:maxLines="4"
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+        android:hint="@string/sms_text_hint"/>
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/button_save"-->
+        <!--android:id="@+id/buttonSave"-->
+        <!--android:layout_gravity="center_horizontal"/>-->
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/service_not_running"
+            android:textColor="@color/Red"
+            android:layout_centerVertical="true"
+            android:id="@+id/serviceState"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxService"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/serviceState"
+            android:layout_gravity="right"/>
+    </RelativeLayout>
+
+</LinearLayout>
