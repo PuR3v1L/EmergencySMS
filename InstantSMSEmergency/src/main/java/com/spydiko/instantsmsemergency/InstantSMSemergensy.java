@@ -25,24 +25,8 @@ public class InstantSMSemergensy extends Application {
 	private static final int MINIMUM_TIME_INTERVAL = 5 * 60 * 1000;
 	private static final int MINIMUM_CHANGE_IN_DISTANCE = 1000;
 	private boolean serviceRunning;
-	private boolean getLocation;
 	private static SharedPreferences prefs;
 	private static SharedPreferences.Editor editor;
-
-
-
-	public Location getCurrentBestLocation() {
-		return currentBestLocation;
-	}
-
-
-	public boolean isGetLocation() {
-		return getLocation;
-	}
-
-	public void setGetLocation(boolean getLocation) {
-		this.getLocation = getLocation;
-	}
 
 
 	public boolean isServiceRunning() {
@@ -60,12 +44,16 @@ public class InstantSMSemergensy extends Application {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = prefs.edit();
 		loadPreferences();
-		if (getLocation) {
-			for (String s : locationManager.getAllProviders()) {
-				if (locationManager.getLastKnownLocation(s) != null) {
-					if (currentBestLocation==null) currentBestLocation = locationManager.getLastKnownLocation(s);
-					else if (currentBestLocation.getTime() > locationManager.getLastKnownLocation(s).getTime()) currentBestLocation = locationManager.getLastKnownLocation(s);
-				}
+		if (loadGetLocation()) {
+			getBestCurrentLocation();
+		}
+	}
+
+	public void getBestCurrentLocation() {
+		for (String s : locationManager.getAllProviders()) {
+			if (locationManager.getLastKnownLocation(s) != null) {
+				if (currentBestLocation==null) currentBestLocation = locationManager.getLastKnownLocation(s);
+				else if (isBetterLocation(locationManager.getLastKnownLocation(s),currentBestLocation)) currentBestLocation = locationManager.getLastKnownLocation(s);
 			}
 		}
 	}
@@ -91,7 +79,6 @@ public class InstantSMSemergensy extends Application {
 		phoneNumber = prefs.getString("phoneNumber", "");
 		textToBeSent = prefs.getString("textToBeSent", "");
 		serviceRunning = prefs.getBoolean("serviceRunning", false);
-		getLocation = prefs.getBoolean("getLocation", true);
 	}
 
 	public void savePreferences() {
@@ -99,12 +86,15 @@ public class InstantSMSemergensy extends Application {
 		editor.putString("phoneNumber", phoneNumber);
 		editor.putString("textToBeSent", textToBeSent);
 		editor.putBoolean("serviceRunning", serviceRunning);
-		editor.putBoolean("getLocation", getLocation);
 		editor.commit();
 	}
 
 	public int loadCounterClicks() {
 		return Integer.valueOf(prefs.getString("screen_off_counter", "8"));
+	}
+
+	public boolean loadGetLocation() {
+		return prefs.getBoolean("location_pref", true);
 	}
 
 	public boolean loadVibration() {
@@ -114,7 +104,8 @@ public class InstantSMSemergensy extends Application {
 	public void sendSMS() {
 		String phoneNumber = getPhoneNumber().trim();
 		String message = getTextToBeSent();
-		if (isGetLocation()) {
+		if (loadGetLocation()) {
+			getBestCurrentLocation();
 			if (currentBestLocation!=null){
 				String http = "http://maps.google.com/?q="+String.valueOf(currentBestLocation.getLatitude())+","+String.valueOf(currentBestLocation.getLongitude()+" ");
 				message = http.concat(message);

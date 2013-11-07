@@ -1,5 +1,6 @@
 package com.spydiko.instantsmsemergency;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -8,7 +9,9 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.support.v4.app.NavUtils;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -20,13 +23,13 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 	private static final String TAG = PrefsActivity.class.getSimpleName();
 	ListPreference screenOffCounterList;
 	CheckBoxPreference vibratePref, locationPref;
+	SwitchPreference vibratePrefSwitch, locationPrefSwitch;
 	InstantSMSemergensy instantSMSemergensy;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.prefs);
-
 		instantSMSemergensy = (InstantSMSemergensy) this.getApplication();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -36,8 +39,27 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 
 	private void setSummaries() {
 		setScreenOffCounterSum();
-		setVibrationSum();
-		setLocationSum();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+			setVibrationSwitchSum();
+			setLocationSwitchSum();
+		}else{
+			setVibrationSum();
+			setLocationSum();
+		}
+	}
+
+	@SuppressLint("NewApi")
+	private void setLocationSwitchSum() {
+		locationPrefSwitch = (SwitchPreference) findPreference("location_pref");
+		if (locationPrefSwitch.isChecked()) locationPrefSwitch.setSummary(getResources().getString(R.string.location_on));
+		else locationPrefSwitch.setSummary(getResources().getString(R.string.location_off));
+	}
+
+	@SuppressLint("NewApi")
+	private void setVibrationSwitchSum() {
+		vibratePrefSwitch = (SwitchPreference) findPreference("vibrate_pref");
+		if (vibratePrefSwitch.isChecked()) vibratePrefSwitch.setSummary(getResources().getString(R.string.vibrate_on));
+		else vibratePrefSwitch.setSummary(getResources().getString(R.string.vibrate_off));
 	}
 
 	private void setScreenOffCounterSum() {
@@ -55,8 +77,14 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		if (InstantSMSemergensy.debugging) Log.d(TAG, "onSharedPreferenceChanged: " + s);
 		if (s.equals("screen_off_counter")) setScreenOffCounterSum();
-		if (s.equals("vibrate_pref")) setVibrationSum();
-		if (s.equals("location_pref")) setLocationSum();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+			if (s.equals("vibrate_pref")) setVibrationSwitchSum();
+			if (s.equals("location_pref")) setLocationSwitchSum();
+		}else{
+			if (s.equals("vibrate_pref")) setVibrationSum();
+			if (s.equals("location_pref")) setLocationSum();
+		}
+
 	}
 
 	private void setLocationSum() {
