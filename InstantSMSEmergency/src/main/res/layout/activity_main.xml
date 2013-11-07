@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:textStyle="italic"
             android:layout_centerVertical="true"
-            android:textColor="@color/YellowGreen"
+            android:textColor="@color/Indigo"
             android:layout_toRightOf="@id/bulb_icon"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/hint_about_phone_numbers"
