@@ -1,9 +1,9 @@
 package com.spydiko.instantsmsemergency;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -57,8 +56,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		phoneNumber.setText(instantSMSemergensy.getPhoneNumber());
 		phoneNumber.addTextChangedListener(this);
 		textToBeSent.addTextChangedListener(this);
-//		buttonSave = (Button) findViewById(R.id.buttonSave);
-//		buttonSave.setOnClickListener(this);
+		//		buttonSave = (Button) findViewById(R.id.buttonSave);
+		//		buttonSave.setOnClickListener(this);
 		buttonContacts = (ImageButton) findViewById(R.id.buttonContacts);
 		buttonContacts.setOnClickListener(this);
 	}
@@ -178,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 							alert.setOwnerActivity(this);
 							alert.show();
 
-						} else if(InstantSMSemergensy.debugging) Log.d(TAG, "No results");
+						} else if (InstantSMSemergensy.debugging) Log.d(TAG, "No results");
 					} else if (cursor.getCount() == 1) {
 						if (cursor.moveToFirst()) {
 							String number = cursor.getString(phoneIdx);
@@ -215,10 +214,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		if (InstantSMSemergensy.debugging) Log.d(TAG, "afterTextChanged entered");
 		EditText editText;
 
-		try{
+		try {
 			editText = (EditText) getCurrentFocus();
 
-			switch (editText.getId()){
+			switch (editText.getId()) {
 				case (R.id.phoneNumber):
 					instantSMSemergensy.setPhoneNumber(phoneNumber.getText().toString());
 					break;
@@ -228,7 +227,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 				default:
 					break;
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
