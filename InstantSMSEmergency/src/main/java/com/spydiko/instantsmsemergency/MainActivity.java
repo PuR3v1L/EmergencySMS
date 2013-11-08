@@ -23,7 +23,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
 
 	private static final String TAG = "MainActivity";
 	private static final int PICK_CONTACT = 1;
@@ -37,6 +37,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		getSupportActionBar().setTitle(R.string.app_name);
 		instantSMSemergensy = (InstantSMSemergensy) getApplication();
 		serviceState = (TextView) findViewById(R.id.serviceState);
 		serviceStateCheckbox = (CheckBox) findViewById(R.id.checkBoxService);
