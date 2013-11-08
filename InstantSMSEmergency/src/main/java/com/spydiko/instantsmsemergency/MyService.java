@@ -8,16 +8,17 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.telephony.SmsManager;
 import android.util.Log;
 
 /**
  * Created by jim on 4/11/2013.
  */
 public class MyService extends Service {
+	private static final String TAG = "MyService";
 	private RemoteControlReceiver mReceiver = null;
 	private IntentFilter filter;
 	private InstantSMSemergensy instantSMSemergensy;
+	private boolean getLocation;
 	public static Vibrator v;
 	//	private int count;
 
@@ -38,6 +39,10 @@ public class MyService extends Service {
 		if (InstantSMSemergensy.debugging) Log.d("service", "end of start");
 		RemoteControlReceiver.countPowerOff = 4;
 		instantSMSemergensy.setServiceRunning(true);
+		if (instantSMSemergensy.isGetLocation()){
+			instantSMSemergensy.localizeClient();
+		}
+		getLocation = instantSMSemergensy.isGetLocation();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			new MyAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
 		else new MyAsyncTask().execute((Void[]) null);
@@ -53,10 +58,11 @@ public class MyService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(mReceiver);
+		instantSMSemergensy.delocalizeClient();
 		instantSMSemergensy.setServiceRunning(false);
 	}
 
-	public class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+	public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
 
 		int count;
 
@@ -74,8 +80,29 @@ public class MyService extends Service {
 		}
 
 		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+			if (values[0]==1){
+				instantSMSemergensy.localizeClient();
+			}
+			else if (values[0]==2) {
+				instantSMSemergensy.delocalizeClient();
+			}
+		}
+
+		@Override
 		protected Void doInBackground(Void... params) {
 			while (instantSMSemergensy.isServiceRunning()) {
+				if (getLocation!=instantSMSemergensy.isGetLocation()){
+					Log.d(TAG,"Get Location Changed!");
+					if (instantSMSemergensy.isGetLocation()){
+						publishProgress(1);
+					}
+					else{
+						publishProgress(2);
+					}
+					getLocation = instantSMSemergensy.isGetLocation();
+				}
 				try {
 					Thread.sleep(6000);
 					if (InstantSMSemergensy.debugging) Log.d("MyService","CountPowerOff = "+RemoteControlReceiver.countPowerOff+" MyCount = "+count);

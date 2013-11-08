@@ -19,4 +19,9 @@
         android:title="@string/locationPref"
         android:defaultValue="true"
         android:key="location_pref" />
+
+    <CheckBoxPreference
+        android:key="last_known_location"
+        android:title="@string/last_known_position"
+        android:dependency="location_pref"/>
 </PreferenceScreen>

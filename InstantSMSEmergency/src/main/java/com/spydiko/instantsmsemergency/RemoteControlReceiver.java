@@ -3,7 +3,6 @@ package com.spydiko.instantsmsemergency;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.telephony.SmsManager;
 import android.util.Log;
 
 /**
@@ -29,7 +28,7 @@ public class RemoteControlReceiver extends BroadcastReceiver {
 			countPowerOff++;
 		} else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 			if (countPowerOff >= threshold && !sentSMS) {
-				if (instantSMSemergensy.loadVibration()) MyService.v.vibrate(2000);
+				if (instantSMSemergensy.isVibration()) MyService.v.vibrate(2000);
 				instantSMSemergensy.sendSMS();
 				if (InstantSMSemergensy.debugging) Log.d(TAG,"SENDSMS");
 				sentSMS = true;

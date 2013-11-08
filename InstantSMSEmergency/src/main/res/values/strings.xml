@@ -21,6 +21,9 @@
     <string name="locationPref">Localization</string>
     <string name="location_off">Your coordinates won\'t be sent</string>
     <string name="location_on">Your coordinates will be sent</string>
+    <string name="last_known_position">Last-Known</string>
+    <string name="last_known_location_on">Send last known location if couldn\'t receive location</string>
+    <string name="last_known_location_off">Don\'t send last known location</string>
 
 
 </resources>

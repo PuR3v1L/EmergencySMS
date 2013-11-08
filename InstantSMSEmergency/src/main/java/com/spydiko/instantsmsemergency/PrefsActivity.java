@@ -22,8 +22,8 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 
 	private static final String TAG = PrefsActivity.class.getSimpleName();
 	ListPreference screenOffCounterList;
-	CheckBoxPreference vibratePref, locationPref;
-	SwitchPreference vibratePrefSwitch, locationPrefSwitch;
+	CheckBoxPreference vibratePref, locationPref, lastKnownLocation;
+	SwitchPreference vibratePrefSwitch, locationPrefSwitch, lastKnownLocationSwitch;
 	InstantSMSemergensy instantSMSemergensy;
 
 	@Override
@@ -42,9 +42,11 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 			setVibrationSwitchSum();
 			setLocationSwitchSum();
+			setLastKnownLocationSwitchSum();
 		}else{
 			setVibrationSum();
 			setLocationSum();
+			setLastKnownLocationSum();
 		}
 	}
 
@@ -54,6 +56,19 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 		if (locationPrefSwitch.isChecked()) locationPrefSwitch.setSummary(getResources().getString(R.string.location_on));
 		else locationPrefSwitch.setSummary(getResources().getString(R.string.location_off));
 	}
+
+	@SuppressLint("NewApi")
+	private void setLastKnownLocationSwitchSum() {
+		lastKnownLocationSwitch = (SwitchPreference) findPreference("last_known_location");
+		if (lastKnownLocationSwitch.isChecked()) lastKnownLocationSwitch.setSummary(getResources().getString(R.string.last_known_location_on));
+		else lastKnownLocationSwitch.setSummary(getResources().getString(R.string.last_known_location_off));
+	}
+	private void setLastKnownLocationSum() {
+		lastKnownLocation = (CheckBoxPreference) findPreference("last_known_location");
+		if (lastKnownLocation.isChecked()) lastKnownLocation.setSummary(getResources().getString(R.string.location_on));
+		else lastKnownLocation.setSummary(getResources().getString(R.string.location_off));
+	}
+
 
 	@SuppressLint("NewApi")
 	private void setVibrationSwitchSum() {
@@ -80,9 +95,11 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 			if (s.equals("vibrate_pref")) setVibrationSwitchSum();
 			if (s.equals("location_pref")) setLocationSwitchSum();
+			if (s.equals("last_known_location")) setLastKnownLocationSwitchSum();
 		}else{
 			if (s.equals("vibrate_pref")) setVibrationSum();
 			if (s.equals("location_pref")) setLocationSum();
+			if (s.equals("last_known_location")) setLastKnownLocationSum();
 		}
 
 	}

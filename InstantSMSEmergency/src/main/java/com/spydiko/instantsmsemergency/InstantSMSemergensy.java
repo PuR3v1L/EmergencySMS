@@ -18,7 +18,7 @@ public class InstantSMSemergensy extends Application {
 
 	private static final String TAG = "InstantSMSemergency";
 	private String phoneNumber, textToBeSent;
-	public static final Boolean debugging = false;
+	public static final Boolean debugging = true;
 	private LocationManager locationManager;
 	private Location currentBestLocation;
 	private static final int TWO_MINUTES = 1000 * 60 * 2;
@@ -44,7 +44,7 @@ public class InstantSMSemergensy extends Application {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = prefs.edit();
 		loadPreferences();
-		if (loadGetLocation()) {
+		if (isGetLocation()) {
 			getBestCurrentLocation();
 		}
 	}
@@ -52,8 +52,8 @@ public class InstantSMSemergensy extends Application {
 	public void getBestCurrentLocation() {
 		for (String s : locationManager.getAllProviders()) {
 			if (locationManager.getLastKnownLocation(s) != null) {
-				if (currentBestLocation==null) currentBestLocation = locationManager.getLastKnownLocation(s);
-				else if (isBetterLocation(locationManager.getLastKnownLocation(s),currentBestLocation)) currentBestLocation = locationManager.getLastKnownLocation(s);
+				if (isBetterLocation(locationManager.getLastKnownLocation(s), currentBestLocation))
+					currentBestLocation = locationManager.getLastKnownLocation(s);
 			}
 		}
 	}
@@ -93,22 +93,32 @@ public class InstantSMSemergensy extends Application {
 		return Integer.valueOf(prefs.getString("screen_off_counter", "8"));
 	}
 
-	public boolean loadGetLocation() {
+	public boolean isGetLocation() {
 		return prefs.getBoolean("location_pref", true);
 	}
 
-	public boolean loadVibration() {
+	public boolean isVibration() {
 		return prefs.getBoolean("vibrate_pref", true);
+	}
+
+	public boolean isLastKnownLocation() {
+		return prefs.getBoolean("last_known_location", true);
 	}
 
 	public void sendSMS() {
 		String phoneNumber = getPhoneNumber().trim();
 		String message = getTextToBeSent();
-		if (loadGetLocation()) {
+		if (isGetLocation()) {
 			getBestCurrentLocation();
-			if (currentBestLocation!=null){
-				String http = "http://maps.google.com/?q="+String.valueOf(currentBestLocation.getLatitude())+","+String.valueOf(currentBestLocation.getLongitude()+" ");
-				message = http.concat(message);
+			if (currentBestLocation != null) {
+				Log.d(TAG,"Difference:" +(System.currentTimeMillis() - currentBestLocation.getTime()));
+				if (System.currentTimeMillis() - currentBestLocation.getTime() < TWO_MINUTES) {
+					String http = "http://maps.google.com/?q=" + String.valueOf(currentBestLocation.getLatitude()) + "," + String.valueOf(currentBestLocation.getLongitude() + " ");
+					message = http.concat(message);
+				} else if (isLastKnownLocation()) {
+					String http = "http://maps.google.com/?q=" + String.valueOf(currentBestLocation.getLatitude()) + "," + String.valueOf(currentBestLocation.getLongitude() + " ");
+					message = http.concat(message);
+				}
 			}
 		}
 		SmsManager smsManager = SmsManager.getDefault();
@@ -203,8 +213,8 @@ public class InstantSMSemergensy extends Application {
 	LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			// Called when a new location is found by the network location provider.
-			// TODO
-			if (isBetterLocation(location,currentBestLocation))	currentBestLocation = location;
+			if (debugging) Log.d(TAG, "New Location!");
+			if (isBetterLocation(location, currentBestLocation)) currentBestLocation = location;
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {}
