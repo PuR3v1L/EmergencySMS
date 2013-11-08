@@ -57,18 +57,24 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 		else locationPrefSwitch.setSummary(getResources().getString(R.string.location_off));
 	}
 
+	private void setLocationSum() {
+		locationPref = (CheckBoxPreference) findPreference("location_pref");
+		if (locationPref.isChecked()) locationPref.setSummary(getResources().getString(R.string.location_on));
+		else locationPref.setSummary(getResources().getString(R.string.location_off));
+	}
 	@SuppressLint("NewApi")
 	private void setLastKnownLocationSwitchSum() {
 		lastKnownLocationSwitch = (SwitchPreference) findPreference("last_known_location");
 		if (lastKnownLocationSwitch.isChecked()) lastKnownLocationSwitch.setSummary(getResources().getString(R.string.last_known_location_on));
 		else lastKnownLocationSwitch.setSummary(getResources().getString(R.string.last_known_location_off));
 	}
+
+
 	private void setLastKnownLocationSum() {
 		lastKnownLocation = (CheckBoxPreference) findPreference("last_known_location");
-		if (lastKnownLocation.isChecked()) lastKnownLocation.setSummary(getResources().getString(R.string.location_on));
-		else lastKnownLocation.setSummary(getResources().getString(R.string.location_off));
+		if (lastKnownLocation.isChecked()) lastKnownLocation.setSummary(getResources().getString(R.string.last_known_location_on));
+		else lastKnownLocation.setSummary(getResources().getString(R.string.last_known_location_off));
 	}
-
 
 	@SuppressLint("NewApi")
 	private void setVibrationSwitchSum() {
@@ -102,12 +108,6 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 			if (s.equals("last_known_location")) setLastKnownLocationSum();
 		}
 
-	}
-
-	private void setLocationSum() {
-		locationPref = (CheckBoxPreference) findPreference("location_pref");
-		if (locationPref.isChecked()) locationPref.setSummary(getResources().getString(R.string.location_on));
-		else locationPref.setSummary(getResources().getString(R.string.location_off));
 	}
 
 	@Override
