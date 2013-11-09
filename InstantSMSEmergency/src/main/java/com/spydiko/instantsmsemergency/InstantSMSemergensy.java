@@ -3,6 +3,8 @@ package com.spydiko.instantsmsemergency;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -90,7 +92,7 @@ public class InstantSMSemergensy extends Application {
 	}
 
 	public int loadCounterClicks() {
-		return Integer.valueOf(prefs.getString("screen_off_counter", "8"));
+		return prefs.getInt("screen_off_counter", 8);
 	}
 
 	public boolean isGetLocation() {
@@ -226,6 +228,10 @@ public class InstantSMSemergensy extends Application {
 
 	public boolean isNotification() {
 		return prefs.getBoolean("permanent_notification",false);
+	}
+
+	public Resources getMyResources() {
+		return getResources();
 	}
 
 	// ----------------------------------------****************************---------------------------------------------------------------------

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:robobunny="http://robobunny.com">
     <PreferenceCategory android:title="@string/optimization_prefs">
-        <ListPreference
+        <com.spydiko.instantsmsemergency.SeekBarPreference
             android:key="screen_off_counter"
             android:title="@string/counter_title"
-            android:entries="@array/counter_list"
-            android:entryValues="@array/counter_list_values"
-            android:defaultValue="8"/>
+            android:summary="@string/screen_off_counter_sum"
+            android:defaultValue="7"
+            robobunny:min="5"
+            android:max="15"/>
 
         <CheckBoxPreference
             android:title="@string/vibratePref"
             android:defaultValue="true"
-            android:key="vibrate_pref" />
+            android:key="vibrate_pref"/>
 
         <CheckBoxPreference
             android:key="permanent_notification"
@@ -21,15 +23,15 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/localization_prefs">
-    <CheckBoxPreference
-        android:title="@string/locationPref"
-        android:defaultValue="true"
-        android:key="location_pref" />
+        <CheckBoxPreference
+            android:title="@string/locationPref"
+            android:defaultValue="true"
+            android:key="location_pref"/>
 
-    <CheckBoxPreference
-        android:key="last_known_location"
-        android:title="@string/last_known_position"
-        android:defaultValue="true"
-        android:dependency="location_pref"/>
+        <CheckBoxPreference
+            android:key="last_known_location"
+            android:title="@string/last_known_position"
+            android:defaultValue="true"
+            android:dependency="location_pref"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -31,6 +31,8 @@
     <string name="permanent_notification_summary_on">Enabled notification in StatusBar</string>
     <string name="permanent_notification_summary_off">Disabled notification in StatusBar</string>
     <string name="localization_prefs">Localization</string>
+    <string name="times">times</string>
+    <string name="screen_off_counter_sum">The number of clicks to trigger the service.</string>
 
 
 </resources>

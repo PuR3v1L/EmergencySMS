@@ -22,7 +22,7 @@ import android.view.MenuItem;
 public class PrefsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final String TAG = PrefsActivity.class.getSimpleName();
-	ListPreference screenOffCounterList;
+//	ListPreference screenOffCounterList;
 	CheckBoxPreference vibratePref, locationPref, lastKnownLocation, notification;
 	SwitchPreference vibratePrefSwitch, locationPrefSwitch, lastKnownLocationSwitch, notificationSwitch;
 	InstantSMSemergensy instantSMSemergensy;
@@ -39,7 +39,7 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 	}
 
 	private void setSummaries() {
-		setScreenOffCounterSum();
+//		setScreenOffCounterSum();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 			setVibrationSwitchSum();
 			setLocationSwitchSum();
@@ -86,10 +86,10 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 		else vibratePrefSwitch.setSummary(getResources().getString(R.string.vibrate_off));
 	}
 
-	private void setScreenOffCounterSum() {
-		screenOffCounterList = (ListPreference) findPreference("screen_off_counter");
-		screenOffCounterList.setSummary(getResources().getString(R.string.screen_off_counter) + " " + (screenOffCounterList.getEntry()) + " clicks");
-	}
+//	private void setScreenOffCounterSum() {
+//		screenOffCounterList = (ListPreference) findPreference("screen_off_counter");
+//		screenOffCounterList.setSummary(getResources().getString(R.string.screen_off_counter) + " " + (screenOffCounterList.getEntry()) + " clicks");
+//	}
 
 	private void setVibrationSum() {
 		vibratePref = (CheckBoxPreference) findPreference("vibrate_pref");
@@ -100,7 +100,7 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		if (InstantSMSemergensy.debugging) Log.d(TAG, "onSharedPreferenceChanged: " + s);
-		if (s.equals("screen_off_counter")) setScreenOffCounterSum();
+//		if (s.equals("screen_off_counter")) setScreenOffCounterSum();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 			if (s.equals("vibrate_pref")) setVibrationSwitchSum();
 			if (s.equals("location_pref")) setLocationSwitchSum();
@@ -112,7 +112,7 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 			if (s.equals("last_known_location")) setLastKnownLocationSum();
 			if (s.equals("permanent_notification")) setNotificationSum();
 		}
-		if (s.equals("location_pref") || s.equals("permanent_notification")) startService(new Intent(this, MyService.class));
+		if ((s.equals("location_pref") || s.equals("permanent_notification")) && instantSMSemergensy.isServiceRunning()) startService(new Intent(this, MyService.class));
 	}
 	@SuppressLint("NewApi")
 	private void setNotificationSwitchSum() {
