@@ -22,8 +22,15 @@
     <string name="location_off">Your coordinates won\'t be sent</string>
     <string name="location_on">Your coordinates will be sent</string>
     <string name="last_known_position">Last-Known</string>
-    <string name="last_known_location_on">Send last known location if couldn\'t receive location</string>
+    <string name="last_known_location_on">Send last known location</string>
     <string name="last_known_location_off">Don\'t send last known location</string>
+    <string name="notification_text">Emergency SMS started</string>
+    <string name="notification_title">Emergency SMS Active</string>
+    <string name="notification_context_text">Click to open</string>
+    <string name="permanent_notification">Notification</string>
+    <string name="permanent_notification_summary_on">Enabled notification in StatusBar</string>
+    <string name="permanent_notification_summary_off">Disabled notification in StatusBar</string>
+    <string name="localization_prefs">Localization</string>
 
 
 </resources>

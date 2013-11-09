@@ -8,13 +8,19 @@
             android:entries="@array/counter_list"
             android:entryValues="@array/counter_list_values"
             android:defaultValue="8"/>
+
+        <SwitchPreference
+            android:title="@string/vibratePref"
+            android:defaultValue="true"
+            android:key="vibrate_pref" />
+
+        <SwitchPreference
+            android:key="permanent_notification"
+            android:title="@string/permanent_notification"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
-    <SwitchPreference
-        android:title="@string/vibratePref"
-        android:defaultValue="true"
-        android:key="vibrate_pref" />
-
+    <PreferenceCategory android:title="@string/localization_prefs">
     <SwitchPreference
         android:title="@string/locationPref"
         android:defaultValue="true"
@@ -23,5 +29,7 @@
     <SwitchPreference
         android:key="last_known_location"
         android:title="@string/last_known_position"
+        android:defaultValue="true"
         android:dependency="location_pref"/>
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -1,6 +1,7 @@
 package com.spydiko.instantsmsemergency;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,8 +23,8 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 
 	private static final String TAG = PrefsActivity.class.getSimpleName();
 	ListPreference screenOffCounterList;
-	CheckBoxPreference vibratePref, locationPref, lastKnownLocation;
-	SwitchPreference vibratePrefSwitch, locationPrefSwitch, lastKnownLocationSwitch;
+	CheckBoxPreference vibratePref, locationPref, lastKnownLocation, notification;
+	SwitchPreference vibratePrefSwitch, locationPrefSwitch, lastKnownLocationSwitch, notificationSwitch;
 	InstantSMSemergensy instantSMSemergensy;
 
 	@Override
@@ -43,10 +44,12 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 			setVibrationSwitchSum();
 			setLocationSwitchSum();
 			setLastKnownLocationSwitchSum();
+			setNotificationSwitchSum();
 		}else{
 			setVibrationSum();
 			setLocationSum();
 			setLastKnownLocationSum();
+			setNotificationSum();
 		}
 	}
 
@@ -102,12 +105,26 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 			if (s.equals("vibrate_pref")) setVibrationSwitchSum();
 			if (s.equals("location_pref")) setLocationSwitchSum();
 			if (s.equals("last_known_location")) setLastKnownLocationSwitchSum();
+			if (s.equals("permanent_notification")) setNotificationSwitchSum();
 		}else{
 			if (s.equals("vibrate_pref")) setVibrationSum();
 			if (s.equals("location_pref")) setLocationSum();
 			if (s.equals("last_known_location")) setLastKnownLocationSum();
+			if (s.equals("permanent_notification")) setNotificationSum();
 		}
+		if (s.equals("location_pref") || s.equals("permanent_notification")) startService(new Intent(this, MyService.class));
+	}
+	@SuppressLint("NewApi")
+	private void setNotificationSwitchSum() {
+		notificationSwitch = (SwitchPreference) findPreference("permanent_notification");
+		if (notificationSwitch.isChecked()) notificationSwitch.setSummary(getResources().getString(R.string.permanent_notification_summary_on));
+		else notificationSwitch.setSummary(getResources().getString(R.string.permanent_notification_summary_off));
+	}
 
+	private void setNotificationSum() {
+		notification = (CheckBoxPreference) findPreference("permanent_notification");
+		if (notification.isChecked()) notification.setSummary(getResources().getString(R.string.permanent_notification_summary_on));
+		else notification.setSummary(getResources().getString(R.string.permanent_notification_summary_off));
 	}
 
 	@Override

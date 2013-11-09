@@ -13,8 +13,8 @@ public class UpdateReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.d(TAG, "mpika");
 		InstantSMSemergensy instantSMSemergensy = (InstantSMSemergensy) context.getApplicationContext();
+		if (instantSMSemergensy.debugging) Log.d(TAG, "mpika");
 		if (instantSMSemergensy.isServiceRunning()){
 			context.startService(new Intent(context, MyService.class));
 		}
