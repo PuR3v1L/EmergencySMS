@@ -58,10 +58,10 @@ public class MyService extends Service {
 	}
 
 	private void createAndStartNotification() {
-		Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.nothing).setTicker(getResources().getString(R.string.notification_text))
 				.setContentTitle(getResources().getString(R.string.notification_title)).setContentText(getResources().getString(R.string.notification_context_text))
-				.setWhen(0).setPriority(NotificationCompat.PRIORITY_MIN);
+				.setWhen(0).setPriority(NotificationCompat.PRIORITY_MIN).setLargeIcon(image);
 		Intent resultIntent = new Intent(this, MainActivity.class);
 		// Because clicking the notification opens a new ("special") activity, there's
 		// no need to create an artificial back stack.
