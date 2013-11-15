@@ -1,10 +1,8 @@
 package com.spydiko.instantsmsemergency;
 
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,22 +14,32 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
 
 	private static final String TAG = "MainActivity";
 	private static final int PICK_CONTACT = 1;
 	private InstantSMSemergensy instantSMSemergensy;
-	private EditText phoneNumber, textToBeSent;
-	private ImageButton buttonContacts;
+	private EditText textToBeSent;
+	private ImageView addContact;
+	private ListView listView;
 	private TextView serviceState;
 	private CheckBox serviceStateCheckbox;
+	private ArrayList<Hashtable<String, String>> listContacts;
+	private SimpleAdapter simpleAdapter;
+	private final String CONTACT_NAME = "cname", CONTACT_NUMBER = "cnumber";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +59,55 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			serviceState.setTextColor(getResources().getColor(R.color.Red));
 		}
 		serviceStateCheckbox.setOnCheckedChangeListener(this);
-		phoneNumber = (EditText) findViewById(R.id.phoneNumber);
+		//		phoneNumber = (EditText) findViewById(R.id.phoneNumber);
+		listView = (ListView) findViewById(R.id.list_contacts);
+		listContacts = new ArrayList<Hashtable<String, String>>();
 		textToBeSent = (EditText) findViewById(R.id.textToBeSent);
 		textToBeSent.setText(instantSMSemergensy.getTextToBeSent());
-		phoneNumber.setText(instantSMSemergensy.getPhoneNumber());
-		phoneNumber.addTextChangedListener(this);
+		//		phoneNumber.setText(instantSMSemergensy.getPhoneNumber());
+		//		phoneNumber.addTextChangedListener(this);
 		textToBeSent.addTextChangedListener(this);
 		//		buttonSave = (Button) findViewById(R.id.buttonSave);
 		//		buttonSave.setOnClickListener(this);
-		buttonContacts = (ImageButton) findViewById(R.id.buttonContacts);
-		buttonContacts.setOnClickListener(this);
+		addContact = (ImageView) findViewById(R.id.add_contact);
+		addContact.setOnClickListener(this);
+		loadContacts();
+		simpleAdapter = new SimpleAdapter(this, listContacts, R.layout.contact_row, new String[]{CONTACT_NAME, CONTACT_NUMBER}, new int[]{R.id.contact_name, R.id.contact_number}) {
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View row = super.getView(position, convertView, parent);
+				ImageView removeContact = (ImageView) row.findViewById(R.id.remove_contact);
+				removeContact.setTag(position);
+				removeContact.setOnClickListener(MainActivity.this);
+				TextView contactName = (TextView) row.findViewById(R.id.contact_name);
+				contactName.setTag(position);
+				removeContact.setTag(position);
+				return row;
+			}
+		};
+		listView.setAdapter(simpleAdapter);
+
+	}
+
+	private void loadContacts() {
+		String numbers = instantSMSemergensy.getPhoneNumber();
+		numbers = numbers.trim();
+		if (numbers.contains("#")) {
+			String[] phoneNumbers = numbers.split("#");
+			for (String phone : phoneNumbers) {
+				if (!phone.equals("")) {
+					Hashtable<String, String> temp = new Hashtable<String, String>();
+					temp.put(CONTACT_NAME, "malakas");
+					temp.put(CONTACT_NUMBER, phone);
+					listContacts.add(temp);
+					if (instantSMSemergensy.debugging) Log.d(TAG, "multiple phone number to add to list: " + phone);
+				}
+			}
+		} else {
+			if (!numbers.equals("")) {
+				if (instantSMSemergensy.debugging) Log.d(TAG, "simple phone number to add to list: " + numbers);
+			}
+		}
 	}
 
 	@Override
@@ -98,24 +145,51 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			//				instantSMSemergensy.setPhoneNumber(phoneNumber.getText().toString());
 			//				instantSMSemergensy.setTextToBeSent(textToBeSent.getText().toString());
 			//				break;
-			case (R.id.buttonContacts):
+			case (R.id.add_contact):
 				//				Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 				//				intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
 				//				startActivityForResult(intent, PICK_CONTACT);
 				Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 				startActivityForResult(contactPickerIntent, PICK_CONTACT);
+				break;
+			case (R.id.remove_contact):
+				Hashtable<String, String> temp = (Hashtable<String, String>) simpleAdapter.getItem((Integer) v.getTag());
+				String numberToRemove = temp.get(CONTACT_NUMBER);
+				String phones = instantSMSemergensy.getPhoneNumber();
+				if (phones.contains(numberToRemove)) {
+					instantSMSemergensy.setPhoneNumber(phones.replace(numberToRemove, ""));
+				}
+				int position = ((Integer) v.getTag()).intValue();
+				Hashtable<String,String> removed = listContacts.remove(position);
+				simpleAdapter.notifyDataSetChanged();
+				Log.d(TAG,phones+" "+numberToRemove+" "+v.getTag());
+				for (Hashtable<String,String> item : listContacts){
+					Log.d(TAG,item.get(CONTACT_NUMBER)+" "+item.get(CONTACT_NAME));
+				}
+				Log.d(TAG,removed.get(CONTACT_NAME)+" "+removed.get(CONTACT_NUMBER));
+				break;
 			default:
 				break;
 		}
 	}
 
-	public void manageContact(String number) {
+	/*public void manageContact(String number) {
 		Toast.makeText(this, "Phone number: " + number, Toast.LENGTH_SHORT).show();
 		if (instantSMSemergensy.getPhoneNumber().equals("")) instantSMSemergensy.setPhoneNumber(number);
 		else instantSMSemergensy.setPhoneNumber(instantSMSemergensy.getPhoneNumber().concat("#" + number));
 		phoneNumber.removeTextChangedListener(this);
 		phoneNumber.setText(instantSMSemergensy.getPhoneNumber());
 		phoneNumber.addTextChangedListener(this);
+	}*/
+
+	public void manageContact(String number) {
+		if (instantSMSemergensy.getPhoneNumber().equals("")) instantSMSemergensy.setPhoneNumber(number);
+		else instantSMSemergensy.setPhoneNumber(instantSMSemergensy.getPhoneNumber().concat("#" + number));
+		Hashtable<String, String> temp = new Hashtable<String, String>();
+		temp.put(CONTACT_NAME, "malakas");
+		temp.put(CONTACT_NUMBER, number);
+		listContacts.add(temp);
+		simpleAdapter.notifyDataSetChanged();
 	}
 
 	private void showToastError() {
@@ -219,9 +293,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			editText = (EditText) getCurrentFocus();
 
 			switch (editText.getId()) {
-				case (R.id.phoneNumber):
-					instantSMSemergensy.setPhoneNumber(phoneNumber.getText().toString());
-					break;
 				case (R.id.textToBeSent):
 					instantSMSemergensy.setTextToBeSent(textToBeSent.getText().toString());
 					break;
@@ -233,4 +304,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		}
 
 	}
+
+
 }
