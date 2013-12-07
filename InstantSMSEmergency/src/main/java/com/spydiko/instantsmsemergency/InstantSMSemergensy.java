@@ -121,7 +121,6 @@ public class InstantSMSemergensy extends Application {
 	public void sendSMS() {
 		String phoneNumber = getPhoneNumber().trim();
 		String message = getTextToBeSent();
-		if (message.equals("")) return;
 		if (isGetLocation()) {
 			getBestCurrentLocation();
 			if (currentBestLocation != null) {
@@ -141,14 +140,14 @@ public class InstantSMSemergensy extends Application {
 			for (String phone : phoneNumbers) {
 				if (!phone.equals("")) {
 					String [] phoneToSend = phone.split("_name_:");
-					smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
+					if (!message.equals("")) smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
 					if (debugging) Log.d(TAG, "multiple phone number to text: " + phone);
 				}
 			}
 		} else {
 			if (!phoneNumber.equals("")) {
 				String [] phoneToSend = phoneNumber.split("_name_:");
-				smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
+				if (!message.equals("")) smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
 				if (debugging) Log.d(TAG, "simple phone number to text: " + phoneNumber);
 			}
 		}
