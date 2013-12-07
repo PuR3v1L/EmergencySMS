@@ -85,6 +85,17 @@ public class InstantSMSemergensy extends Application {
 
 	public void savePreferences() {
 		if (debugging) Log.d(TAG, "savePreferences");
+		// Check
+		if (phoneNumber.contains("#")) {
+			String[] phoneNumbers = phoneNumber.split("#");
+			phoneNumber="";
+			for (String phone : phoneNumbers) {
+				if (!phone.equals("")) {
+					phoneNumber = phoneNumber.concat(phone+"#");
+				}
+			}
+		}
+		Log.d(TAG,phoneNumber);
 		editor.putString("phoneNumber", phoneNumber);
 		editor.putString("textToBeSent", textToBeSent);
 		editor.putBoolean("serviceRunning", serviceRunning);
@@ -110,6 +121,7 @@ public class InstantSMSemergensy extends Application {
 	public void sendSMS() {
 		String phoneNumber = getPhoneNumber().trim();
 		String message = getTextToBeSent();
+		if (message.equals("")) return;
 		if (isGetLocation()) {
 			getBestCurrentLocation();
 			if (currentBestLocation != null) {
@@ -128,13 +140,15 @@ public class InstantSMSemergensy extends Application {
 			String[] phoneNumbers = phoneNumber.split("#");
 			for (String phone : phoneNumbers) {
 				if (!phone.equals("")) {
-					smsManager.sendTextMessage(phone, null, message, null, null);
+					String [] phoneToSend = phone.split("_name_:");
+					smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
 					if (debugging) Log.d(TAG, "multiple phone number to text: " + phone);
 				}
 			}
 		} else {
 			if (!phoneNumber.equals("")) {
-				smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+				String [] phoneToSend = phoneNumber.split("_name_:");
+				smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
 				if (debugging) Log.d(TAG, "simple phone number to text: " + phoneNumber);
 			}
 		}

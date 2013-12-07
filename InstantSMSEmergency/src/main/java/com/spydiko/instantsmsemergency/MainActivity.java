@@ -91,6 +91,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 	private void loadContacts() {
 		String numbers = instantSMSemergensy.getPhoneNumber();
+		Log.d(TAG,numbers);
 		numbers = numbers.trim();
 		if (numbers.contains("#")) {
 			String[] phoneNumbers = numbers.split("#");
@@ -156,9 +157,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			case (R.id.remove_contact):
 				Hashtable<String, String> temp = (Hashtable<String, String>) simpleAdapter.getItem((Integer) v.getTag());
 				String numberToRemove = temp.get(CONTACT_NUMBER);
+				String nameToRemove = temp.get(CONTACT_NAME);
 				String phones = instantSMSemergensy.getPhoneNumber();
 				if (phones.contains(numberToRemove)) {
-					instantSMSemergensy.setPhoneNumber(phones.replace(numberToRemove, ""));
+					instantSMSemergensy.setPhoneNumber(phones.replace(numberToRemove+"_name_:"+nameToRemove, ""));
 				}
 				int position = ((Integer) v.getTag()).intValue();
 				Hashtable<String,String> removed = listContacts.remove(position);
@@ -184,7 +186,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 	}*/
 
 	public void manageContact(String number,String name) {
-		if (instantSMSemergensy.getPhoneNumber().equals("")) instantSMSemergensy.setPhoneNumber(number);
+		if (instantSMSemergensy.getPhoneNumber().equals("")) instantSMSemergensy.setPhoneNumber(number+"_name_:"+name);
 		else instantSMSemergensy.setPhoneNumber(instantSMSemergensy.getPhoneNumber().concat("#" + number).concat("_name_:"+name));
 		Hashtable<String, String> temp = new Hashtable<String, String>();
 		temp.put(CONTACT_NAME, name);
