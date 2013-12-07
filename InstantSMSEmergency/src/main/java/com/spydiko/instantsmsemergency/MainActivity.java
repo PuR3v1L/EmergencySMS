@@ -97,8 +97,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			for (String phone : phoneNumbers) {
 				if (!phone.equals("")) {
 					Hashtable<String, String> temp = new Hashtable<String, String>();
-					temp.put(CONTACT_NAME, "malakas");
-					temp.put(CONTACT_NUMBER, phone);
+					String [] data = phone.split("_name_:");
+					temp.put(CONTACT_NAME, data[1]);
+					temp.put(CONTACT_NUMBER, data[0]);
 					listContacts.add(temp);
 					if (instantSMSemergensy.debugging) Log.d(TAG, "multiple phone number to add to list: " + phone);
 				}
@@ -182,12 +183,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		phoneNumber.addTextChangedListener(this);
 	}*/
 
-	public void manageContact(String number) {
+	public void manageContact(String number,String name) {
 		if (instantSMSemergensy.getPhoneNumber().equals("")) instantSMSemergensy.setPhoneNumber(number);
-		else instantSMSemergensy.setPhoneNumber(instantSMSemergensy.getPhoneNumber().concat("#" + number));
+		else instantSMSemergensy.setPhoneNumber(instantSMSemergensy.getPhoneNumber().concat("#" + number).concat("_name_:"+name));
 		Hashtable<String, String> temp = new Hashtable<String, String>();
-		temp.put(CONTACT_NAME, "malakas");
+		temp.put(CONTACT_NAME, name);
 		temp.put(CONTACT_NUMBER, number);
+		Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
 		listContacts.add(temp);
 		simpleAdapter.notifyDataSetChanged();
 	}
@@ -225,13 +227,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 					int phoneIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA);
 					phoneType = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
+					int nameIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
 					if (cursor.getCount() > 1) { // contact has multiple phone numbers
 						final CharSequence[] numbers = new CharSequence[cursor.getCount()];
+						final CharSequence[] names = new CharSequence[cursor.getCount()];
 						int i = 0;
 						if (cursor.moveToFirst()) {
 							while (!cursor.isAfterLast()) { // for each phone number, add it to the numbers array
 								String type = (String) ContactsContract.CommonDataKinds.Phone.getTypeLabel(this.getResources(), cursor.getInt(phoneType), ""); // insert a type string in front of the number
 								String number = type + ": " + cursor.getString(phoneIdx);
+								names[i] = cursor.getString(nameIdx);
 								numbers[i++] = number;
 								cursor.moveToNext();
 							}
@@ -243,9 +248,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 								@Override
 								public void onClick(DialogInterface dialog, int item) {
 									String number = (String) numbers[item];
+									String name = (String) names[item];
 									int index = number.indexOf(":");
 									number = number.substring(index + 2);
-									manageContact(number);
+									manageContact(number,name);
 								}
 							});
 							AlertDialog alert = builder.create();
@@ -256,8 +262,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 					} else if (cursor.getCount() == 1) {
 						if (cursor.moveToFirst()) {
 							String number = cursor.getString(phoneIdx);
+							String name =  cursor.getString(nameIdx);
 							if (InstantSMSemergensy.debugging) Log.d(TAG, "else if " + number);
-							manageContact(number);
+							manageContact(number,name);
 						}
 						// contact has a single phone number, so there's no need to display a second dialog
 					} else {
