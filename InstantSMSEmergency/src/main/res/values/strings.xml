@@ -3,15 +3,15 @@
 
     <string name="app_name">Emergency SMS</string>
     <string name="action_settings">Preferences</string>
-    <string name="sms_text_hint">Enter your preferred text</string>
+    <string name="sms_text_hint">Enter your preferred emergency text…</string>
     <string name="phone_number_hint">Enter phone number</string>
     <string name="button_save">Save</string>
     <string name="contact_button_description">Contacts Button</string>
-    <string name="select_contact_phone_number_and_type">Select Contact Phone Number</string>
+    <string name="select_contact_phone_number_and_type">Select Contacts</string>
     <string name="hint_about_phone_numbers">You can add more than one number, by entering # between numbers</string>
-    <string name="service_not_running">Alert SMS Disabled</string>
-    <string name="service_running">Alert SMS Enabled</string>
-    <string name="optimization_prefs">Optimization</string>
+    <string name="service_not_running">Emergency SMS Disabled</string>
+    <string name="service_running">Emergency SMS Enabled</string>
+    <string name="optimization_prefs">Personalization</string>
     <string name="counter_title">Number of clicks</string>
     <string name="screen_off_counter">Number of clicks set to:</string>
     <string name="titlePrefs">Preferences</string>
@@ -22,12 +22,12 @@
     <string name="location_off">Your coordinates won\'t be sent</string>
     <string name="location_on">Your coordinates will be sent</string>
     <string name="last_known_position">Last-Known</string>
-    <string name="last_known_location_on">Send last known location</string>
-    <string name="last_known_location_off">Don\'t send last known location</string>
+    <string name="last_known_location_on">Send current or last known location</string>
+    <string name="last_known_location_off">Try to send current location (may fail)</string>
     <string name="notification_text">Emergency SMS started</string>
     <string name="notification_title">Emergency SMS Active</string>
     <string name="notification_context_text">Click to open</string>
-    <string name="permanent_notification">Notification</string>
+    <string name="permanent_notification">Permanent Notification</string>
     <string name="permanent_notification_summary_on">Enabled notification in StatusBar</string>
     <string name="permanent_notification_summary_off">Disabled notification in StatusBar</string>
     <string name="localization_prefs">Localization</string>
