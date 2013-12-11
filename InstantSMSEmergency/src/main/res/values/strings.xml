@@ -33,6 +33,12 @@
     <string name="localization_prefs">Localization</string>
     <string name="times">times</string>
     <string name="screen_off_counter_sum">The number of clicks to trigger the service.</string>
+    <string name="createdby">Created by SpyDiKo</string>
+    <string name="playStore">Play Store</string>
+    <string name="cancel">Cancel</string>
+    <string name="spydiko">Spydiko</string>
+    <string name="other_apps">View all of our apps!</string>
+    <string name="copyright">2013 \u00a9 S.D.K.</string>
 
 
 </resources>

@@ -74,7 +74,7 @@ public class MyService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (getLocation != instantSMSemergensy.isGetLocation()) {
-			Log.d(TAG, "Get Location Changed!");
+			if (InstantSMSemergensy.debugging) Log.d(TAG, "Get Location Changed!");
 			if (instantSMSemergensy.isGetLocation()) {
 				instantSMSemergensy.localizeClient();
 			} else {
@@ -83,7 +83,7 @@ public class MyService extends Service {
 			getLocation = instantSMSemergensy.isGetLocation();
 		}
 		if (isNotification != instantSMSemergensy.isNotification()){
-			Log.d(TAG, "Notification Changed");
+			if (InstantSMSemergensy.debugging) Log.d(TAG, "Notification Changed");
 			if (instantSMSemergensy.isNotification()) {
 				createAndStartNotification();
 			} else {

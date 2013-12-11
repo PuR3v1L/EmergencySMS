@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 	private ListView listView;
 	private TextView serviceState;
 	private CheckBox serviceStateCheckbox;
+	private LinearLayout spydiko;
 	private ArrayList<Hashtable<String, String>> listContacts;
 	private SimpleAdapter simpleAdapter;
 	private final String CONTACT_NAME = "cname", CONTACT_NUMBER = "cnumber";
@@ -48,6 +50,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		getSupportActionBar().setTitle(R.string.app_name);
 		instantSMSemergensy = (InstantSMSemergensy) getApplication();
 		serviceState = (TextView) findViewById(R.id.serviceState);
+		spydiko = (LinearLayout) findViewById(R.id.spydiko);
+		spydiko.setOnClickListener(this);
 		serviceStateCheckbox = (CheckBox) findViewById(R.id.checkBoxService);
 		if (instantSMSemergensy.isServiceRunning()) {
 			serviceState.setText(R.string.service_running);
@@ -159,17 +163,63 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 				String numberToRemove = temp.get(CONTACT_NUMBER);
 				String nameToRemove = temp.get(CONTACT_NAME);
 				String phones = instantSMSemergensy.getPhoneNumber();
+				int lastIndex=0;
+				int count=0;
+				while(lastIndex != -1){
+					lastIndex = phones.indexOf(numberToRemove,lastIndex);
+					if( lastIndex != -1){
+						count ++;
+						lastIndex+=numberToRemove.length();
+					}
+				}
+//				Log.d(TAG,""+count);
+//				Log.d(TAG,"BEFORE : "+phones);
 				if (phones.contains(numberToRemove)) {
 					instantSMSemergensy.setPhoneNumber(phones.replace(numberToRemove+"_name_:"+nameToRemove, ""));
 				}
+				phones = instantSMSemergensy.getPhoneNumber();
+//				Log.d(TAG,"BETWEEN : "+phones);
+				while (count>1){
+					instantSMSemergensy.setPhoneNumber(phones.concat("#" + numberToRemove.concat("_name_:"+nameToRemove)));
+					phones = instantSMSemergensy.getPhoneNumber();
+					count--;
+				}
+//				Log.d(TAG,"AFTER : "+phones);
 				int position = ((Integer) v.getTag()).intValue();
 				Hashtable<String,String> removed = listContacts.remove(position);
 				simpleAdapter.notifyDataSetChanged();
-				Log.d(TAG,phones+" "+numberToRemove+" "+v.getTag());
+				if (InstantSMSemergensy.debugging)Log.d(TAG,phones+" "+numberToRemove+" "+v.getTag());
 				for (Hashtable<String,String> item : listContacts){
-					Log.d(TAG,item.get(CONTACT_NUMBER)+" "+item.get(CONTACT_NAME));
+					if (InstantSMSemergensy.debugging)Log.d(TAG,item.get(CONTACT_NUMBER)+" "+item.get(CONTACT_NAME));
 				}
-				Log.d(TAG,removed.get(CONTACT_NAME)+" "+removed.get(CONTACT_NUMBER));
+				if (InstantSMSemergensy.debugging)Log.d(TAG,removed.get(CONTACT_NAME)+" "+removed.get(CONTACT_NUMBER));
+				break;
+			case (R.id.spydiko):
+				// PLAY STORE *****
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				// Add the buttons
+				builder.setTitle(R.string.spydiko);
+				builder.setMessage(R.string.other_apps);
+				builder.setIcon(R.drawable.icon);
+				builder.setPositiveButton(R.string.playStore, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User clicked OK button
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse("market://search?q=pub:Spydiko"));
+						startActivity(intent);
+					}
+				});
+				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User cancelled the dialog
+					}
+				});
+				// Set other dialog properties
+
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
+				// ****************
 				break;
 			default:
 				break;
@@ -191,7 +241,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		Hashtable<String, String> temp = new Hashtable<String, String>();
 		temp.put(CONTACT_NAME, name);
 		temp.put(CONTACT_NUMBER, number);
-		Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
 		listContacts.add(temp);
 		simpleAdapter.notifyDataSetChanged();
 	}

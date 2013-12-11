@@ -95,7 +95,7 @@ public class InstantSMSemergensy extends Application {
 				}
 			}
 		}
-		Log.d(TAG,phoneNumber);
+		if (debugging)Log.d(TAG,phoneNumber);
 		editor.putString("phoneNumber", phoneNumber);
 		editor.putString("textToBeSent", textToBeSent);
 		editor.putBoolean("serviceRunning", serviceRunning);
@@ -124,7 +124,7 @@ public class InstantSMSemergensy extends Application {
 		if (isGetLocation()) {
 			getBestCurrentLocation();
 			if (currentBestLocation != null) {
-				Log.d(TAG,"Difference:" +(System.currentTimeMillis() - currentBestLocation.getTime()));
+				if (debugging) Log.d(TAG,"Difference:" +(System.currentTimeMillis() - currentBestLocation.getTime()));
 				if (System.currentTimeMillis() - currentBestLocation.getTime() < TWO_MINUTES) {
 					String http = "http://maps.google.com/?q=" + String.valueOf(currentBestLocation.getLatitude()) + "," + String.valueOf(currentBestLocation.getLongitude() + " ");
 					message = http.concat(message);

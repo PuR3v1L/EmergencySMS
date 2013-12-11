@@ -22,9 +22,8 @@
         android:screenOrientation="portrait">
         <activity
             android:name="com.spydiko.instantsmsemergency.MainActivity"
-
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

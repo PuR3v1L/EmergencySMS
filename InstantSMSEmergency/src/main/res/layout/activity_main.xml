@@ -1,54 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="30dp"
-              android:orientation="vertical"
-              tools:context=".MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:orientation="vertical"
+                tools:context=".MainActivity">
 
-<RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/list_header"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_contact_phone_number_and_type"
-        android:textStyle="bold"/>
-    <ImageView
-        android:id="@+id/add_contact"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:padding="5dp"
-        android:src="@drawable/add_user"/>
-
-    </RelativeLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/Gray"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-    <ListView
-        android:id="@+id/list_contacts"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:fadingEdge="vertical"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="5dp"
-        android:scrollbars="vertical"
-        android:listSelector="@android:color/transparent"
-        android:background="@android:color/transparent"/>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/Gray"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -59,16 +16,49 @@
         android:inputType="textMultiLine"
         android:hint="@string/sms_text_hint"/>
 
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/button_save"-->
-        <!--android:id="@+id/buttonSave"-->
-        <!--android:layout_gravity="center_horizontal"/>-->
+    <LinearLayout
+        android:id="@+id/spydiko"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp"
+        android:paddingTop="5dp"
+        android:visibility="visible"
+        android:background="@drawable/back_createdby"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="italic"
+            android:paddingLeft="10dp"
+            android:text="@string/createdby"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/textView"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="italic"
+            android:paddingLeft="10dp"
+            android:gravity="right"
+            android:text="@string/copyright"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/textView"/>
+
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/layout_for_enabling"
+        android:layout_below="@id/textToBeSent"
         android:layout_width="wrap_content">
 
         <TextView
@@ -89,4 +79,68 @@
             android:layout_gravity="right"/>
     </RelativeLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:id="@+id/border_view_first"
+        android:background="@color/Gray"
+        android:layout_below="@id/layout_for_enabling"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@id/border_view_first"
+        android:layout_margin="0dp"
+        android:id="@+id/layout_for_adding_contact"
+        android:background="#33666666"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/list_header"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_contact_phone_number_and_type"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/add_contact"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/add_user"/>
+    </RelativeLayout>
+
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:id="@+id/border_view_second"
+        android:layout_height="1px"
+        android:background="@color/Gray"
+        android:layout_below="@id/layout_for_adding_contact"/>
+
+    <ListView
+        android:id="@+id/list_contacts"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="vertical"
+        android:layout_below="@id/border_view_second"
+        android:layout_above="@id/spydiko"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="5dp"
+        android:scrollbars="vertical"
+        android:listSelector="@android:color/transparent"/>
+
+
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/button_save"-->
+    <!--android:id="@+id/buttonSave"-->
+    <!--android:layout_gravity="center_horizontal"/>-->
+
+
+</RelativeLayout>
