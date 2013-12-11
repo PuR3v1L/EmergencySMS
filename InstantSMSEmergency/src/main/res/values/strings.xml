@@ -27,9 +27,9 @@
     <string name="notification_text">Emergency SMS started</string>
     <string name="notification_title">Emergency SMS Active</string>
     <string name="notification_context_text">Click to open</string>
-    <string name="permanent_notification">Permanent Notification</string>
-    <string name="permanent_notification_summary_on">Enabled notification in StatusBar</string>
-    <string name="permanent_notification_summary_off">Disabled notification in StatusBar</string>
+    <string name="permanent_notification">StatusBar</string>
+    <string name="permanent_notification_summary_on">Permanent notification in StatusBar enabled</string>
+    <string name="permanent_notification_summary_off">Permanent notification in StatusBar disabled</string>
     <string name="localization_prefs">Localization</string>
     <string name="times">times</string>
     <string name="screen_off_counter_sum">The number of clicks to trigger the service.</string>

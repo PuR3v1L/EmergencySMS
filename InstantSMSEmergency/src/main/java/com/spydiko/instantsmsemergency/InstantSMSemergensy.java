@@ -20,7 +20,7 @@ public class InstantSMSemergensy extends Application {
 
 	private static final String TAG = "InstantSMSemergency";
 	private String phoneNumber, textToBeSent;
-	public static final Boolean debugging = true;
+	public static final Boolean debugging = false;
 	private LocationManager locationManager;
 	private Location currentBestLocation;
 	private static final int TWO_MINUTES = 1000 * 60 * 2;
