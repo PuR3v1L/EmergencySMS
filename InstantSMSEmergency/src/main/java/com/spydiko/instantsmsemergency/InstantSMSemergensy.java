@@ -24,8 +24,8 @@ public class InstantSMSemergensy extends Application {
 	private LocationManager locationManager;
 	private Location currentBestLocation;
 	private static final int TWO_MINUTES = 1000 * 60 * 2;
-	private static final int MINIMUM_TIME_INTERVAL = 5 * 60 * 1000;
-	private static final int MINIMUM_CHANGE_IN_DISTANCE = 1000;
+	private static final int MINIMUM_TIME_INTERVAL = 10 * 60 * 1000;
+	private static final int MINIMUM_CHANGE_IN_DISTANCE = 2000;
 	private boolean serviceRunning;
 	private static SharedPreferences prefs;
 	private static SharedPreferences.Editor editor;
