@@ -1,5 +1,7 @@
 package com.spydiko.instantsmsemergency;
 
+import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -11,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -55,6 +58,19 @@ public class MyService extends Service {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			new MyAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
 		else new MyAsyncTask().execute((Void[]) null);
+	}
+
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	@Override
+	public void onTaskRemoved(Intent rootIntent) {
+		super.onTaskRemoved(rootIntent);
+		if (InstantSMSemergensy.debugging) Log.d(TAG, "onTaskRemoved");
+		Intent restartService = new Intent(getApplicationContext(),
+				this.getClass());
+		restartService.setPackage(getPackageName());
+		PendingIntent restartServicePI = PendingIntent.getService(getApplicationContext(), 1, restartService, PendingIntent.FLAG_ONE_SHOT);
+		AlarmManager alarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+		alarmService.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 2000, restartServicePI);
 	}
 
 	private void createAndStartNotification() {
