@@ -34,4 +34,10 @@
             android:defaultValue="true"
             android:dependency="location_pref"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/misc_prefs">
+        <CheckBoxPreference
+            android:key="showTutorial"
+            android:title="@string/tutorial"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -23,8 +23,8 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 
 	private static final String TAG = PrefsActivity.class.getSimpleName();
 //	ListPreference screenOffCounterList;
-	CheckBoxPreference vibratePref, locationPref, lastKnownLocation, notification;
-	SwitchPreference vibratePrefSwitch, locationPrefSwitch, lastKnownLocationSwitch, notificationSwitch;
+	CheckBoxPreference vibratePref, locationPref, lastKnownLocation, notification,showTutorial;
+	SwitchPreference vibratePrefSwitch, locationPrefSwitch, lastKnownLocationSwitch, notificationSwitch, showTutorialSwitch;
 	InstantSMSemergensy instantSMSemergensy;
 
 	@Override
@@ -45,11 +45,13 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 			setLocationSwitchSum();
 			setLastKnownLocationSwitchSum();
 			setNotificationSwitchSum();
+			setTutorialSwitchPref();
 		}else{
 			setVibrationSum();
 			setLocationSum();
 			setLastKnownLocationSum();
 			setNotificationSum();
+			setTutorialPref();
 		}
 	}
 
@@ -58,6 +60,19 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 		locationPrefSwitch = (SwitchPreference) findPreference("location_pref");
 		if (locationPrefSwitch.isChecked()) locationPrefSwitch.setSummary(getResources().getString(R.string.location_on));
 		else locationPrefSwitch.setSummary(getResources().getString(R.string.location_off));
+	}
+
+	@SuppressLint("NewApi")
+	private void setTutorialSwitchPref() {
+		showTutorialSwitch = (SwitchPreference) findPreference("showTutorial");
+		if (showTutorialSwitch.isChecked()) showTutorialSwitch.setSummary(getResources().getString(R.string.tutorial_on));
+		else showTutorialSwitch.setSummary(getResources().getString(R.string.tutorial_off));
+	}
+
+	private void setTutorialPref() {
+		showTutorial = (CheckBoxPreference) findPreference("showTutorial");
+		if (showTutorial.isChecked()) showTutorial.setSummary(getResources().getString(R.string.tutorial_on));
+		else showTutorial.setSummary(getResources().getString(R.string.tutorial_off));
 	}
 
 	private void setLocationSum() {
@@ -106,11 +121,13 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 			if (s.equals("location_pref")) setLocationSwitchSum();
 			if (s.equals("last_known_location")) setLastKnownLocationSwitchSum();
 			if (s.equals("permanent_notification")) setNotificationSwitchSum();
+			if (s.equals("showTutorial")) setTutorialSwitchPref();
 		}else{
 			if (s.equals("vibrate_pref")) setVibrationSum();
 			if (s.equals("location_pref")) setLocationSum();
 			if (s.equals("last_known_location")) setLastKnownLocationSum();
 			if (s.equals("permanent_notification")) setNotificationSum();
+			if (s.equals("showTutorial")) setTutorialPref();
 		}
 		if ((s.equals("location_pref") || s.equals("permanent_notification")) && instantSMSemergensy.isServiceRunning()) startService(new Intent(this, MyService.class));
 	}

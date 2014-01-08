@@ -39,4 +39,18 @@
   <string name="spydiko">Spydiko</string>
   <string name="other_apps">Προβολή όλων των εφαρμογών μας!</string>
   <string name="copyright">2013 \u00a9 S.D.K.</string>
+  <string name="showcase_title">Επαφές</string>
+  <string name="showcase_message">Επιλέξτε όλες τις επαφές εκτάκτου ανάγκης</string>
+  <string name="showcase_title_2">Μήνυμα</string>
+  <string name="showcase_message_2">Γράψτε το μήνυμα που θέλετε να στείλετε</string>
+  <string name="showcase_title_3">Ενεργοποίηση</string>
+  <string name="showcase_message_3">Ενεργοποιήστε την εφαρμογή</string>
+  <string name="showcase_title_4">Προτιμήσεις</string>
+  <string name="showcase_message_4">Επεξεργαστείτε όλες τις προτιμήσεις, όπως τον εντοπισμό, τον αριθμό των κλικ, κλπ</string>
+  <string name="showcase_title_5">Είστε έτοιμοι!</string>
+  <string name="showcase_message_5">Τώρα κάντε κλικ στο κουμπί λειτουργίας τόσες φορές, όσες έχετε εισαγάγει στις προτιμήσεις</string>
+  <string name="misc_prefs">Διάφορα</string>
+  <string name="tutorial">Οδηγίες</string>
+  <string name="tutorial_on">Οι οδηγίες χρήσης θα εμφανιστούν κατά την επανεκκίνηση</string>
+  <string name="tutorial_off">Οι οδηγίες χρήσης δεν εμφανίζονται</string>
 </resources>

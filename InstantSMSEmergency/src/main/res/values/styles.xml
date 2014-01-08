@@ -2,5 +2,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
+        <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
+    </style>
+    <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
+        <item name="sv_titleTextAppearance">@style/CustomTitle</item>
+        <item name="sv_detailTextAppearance">@style/CustomDetailText</item>
+    </style>
+    <style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">#ff040780</item>
+    </style>
+    <style name="CustomDetailText" parent="TextAppearance.ShowcaseView.Detail">
+        <item name="android:textColor">#ff00a7de</item>
     </style>
 </resources>

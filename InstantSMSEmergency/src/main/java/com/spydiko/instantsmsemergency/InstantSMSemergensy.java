@@ -83,6 +83,15 @@ public class InstantSMSemergensy extends Application {
 		serviceRunning = prefs.getBoolean("serviceRunning", false);
 	}
 
+	public boolean isTutorial() {
+		return prefs.getBoolean("showTutorial", true);
+	}
+
+	public void setTutorial(boolean showTutorial) {
+		editor.putBoolean("showTutorial", showTutorial);
+		editor.commit();
+	}
+
 	public void savePreferences() {
 		if (debugging) Log.d(TAG, "savePreferences");
 		// Check
@@ -246,6 +255,7 @@ public class InstantSMSemergensy extends Application {
 	public Resources getMyResources() {
 		return getResources();
 	}
+
 
 	// ----------------------------------------****************************---------------------------------------------------------------------
 

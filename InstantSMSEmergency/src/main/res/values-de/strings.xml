@@ -39,4 +39,18 @@
   <string name="spydiko">SpyDiKo</string>
   <string name="other_apps">Alle unsere Apps anzeigen!</string>
   <string name="copyright">2013 \u00a9 S.D.K.</string>
+  <string name="showcase_title">Contacts</string>
+  <string name="showcase_message">Select all your emergency contacts</string>
+  <string name="showcase_title_2">Message</string>
+  <string name="showcase_message_2">Write the message you want to send</string>
+  <string name="showcase_title_3">Enable</string>
+  <string name="showcase_message_3">Enable the app</string>
+  <string name="showcase_title_4">Preferences</string>
+  <string name="showcase_message_4">Edit all preferences such as localization, number of clicks, etc</string>
+  <string name="showcase_title_5">All Done!</string>
+  <string name="showcase_message_5">Now click the power button as many times as you have entered in preferences</string>
+  <string name="misc_prefs">Miscelleanous</string>
+  <string name="tutorial">Tutorial</string>
+  <string name="tutorial_on">Tutorial will be shown on restart</string>
+  <string name="tutorial_off">Tutorial won\'t be shown</string>
 </resources>
