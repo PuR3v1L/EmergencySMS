@@ -29,4 +29,14 @@ android {
 			res.srcDirs = ['res']
 		}
 	}
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 19
+    }
+
+    release {
+        runProguard false
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+    }
 }
