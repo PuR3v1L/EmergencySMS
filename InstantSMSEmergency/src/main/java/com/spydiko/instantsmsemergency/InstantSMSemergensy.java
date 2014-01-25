@@ -36,6 +36,7 @@ public class InstantSMSemergensy extends Application {
 	private static SharedPreferences prefs;
 	private static SharedPreferences.Editor editor;
 	private boolean phoneRinging = false;
+	private String address = "";
 
 
 	public boolean isServiceRunning() {
@@ -160,26 +161,7 @@ public class InstantSMSemergensy extends Application {
 					String http = "http://maps.google.com/?q=" + String.valueOf(lat) + "," + String.valueOf(lont + ", ");
 					message = http.concat(message);
 				}
-				Geocoder myLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
-				try {
-					List<Address> myList = myLocation.getFromLocation(lat, lont, 1);
-					for (Address address : myList) {
-						Log.d(TAG, address.toString());
-						String read_address = "";
-						int i = 0;
-						while (true) {
-							String temp = address.getAddressLine(i);
-							if (temp == null) break;
-							read_address = read_address.concat(", " + temp);
-							i++;
-						}
-						Log.d(TAG, read_address);
-						message = message.concat(read_address);
-
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				message = message.concat(getAddress());
 
 			}
 		}
@@ -204,6 +186,12 @@ public class InstantSMSemergensy extends Application {
 				if (debugging) Log.d(TAG, "simple phone number to text: " + phoneNumber);
 			}
 		}
+	}
+	public String getAddress (){
+		return address;
+	}
+	public void setAddress(String address){
+		this.address = address;
 	}
 
 	// ----------------------------------------****************************---------------------------------------------------------------------
@@ -282,7 +270,32 @@ public class InstantSMSemergensy extends Application {
 		public void onLocationChanged(Location location) {
 			// Called when a new location is found by the network location provider.
 			if (debugging) Log.d(TAG, "New Location!");
-			if (isBetterLocation(location, currentBestLocation)) currentBestLocation = location;
+			if (isBetterLocation(location, currentBestLocation)) {
+				currentBestLocation = location;
+				double lat = currentBestLocation.getLatitude();
+				double lont = currentBestLocation.getLongitude();
+				Geocoder myLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
+				try {
+					List<Address> myList = myLocation.getFromLocation(lat, lont, 1);
+					for (Address address : myList) {
+						Log.d(TAG, address.toString());
+						String read_address = "";
+						int i = 0;
+						while (true) {
+							String temp = address.getAddressLine(i);
+							if (temp == null) break;
+							read_address = read_address.concat(", " + temp);
+							i++;
+						}
+						Log.d(TAG, read_address);
+//						message = message.concat(read_address);
+						setAddress(read_address);
+
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {}
