@@ -140,7 +140,7 @@ public class MyService extends Service {
 		protected Void doInBackground(Void... params) {
 			while (instantSMSemergensy.isServiceRunning()) {
 				try {
-					Thread.sleep(6000);
+					Thread.sleep(3000);
 					if (InstantSMSemergensy.debugging) Log.d("MyService", "CountPowerOff = " + RemoteControlReceiver.countPowerOff + " MyCount = " + count);
 				} catch (InterruptedException e) {
 					e.printStackTrace();

@@ -25,7 +25,7 @@ public class RemoteControlReceiver extends BroadcastReceiver {
 		if (InstantSMSemergensy.debugging) Log.d("onReceive", "Power button is pressed. Sent Sms is " + sentSMS);
 		int threshold = instantSMSemergensy.loadCounterClicks()/2;
 		if (InstantSMSemergensy.debugging) Log.d(TAG,"threshold: "+threshold);
-		if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF) && instantSMSemergensy.getPhoneRinging()) {
+		if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF) && !instantSMSemergensy.getPhoneRinging()) {
 			countPowerOff++;
 		} else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 			if (countPowerOff >= threshold && !sentSMS) {
