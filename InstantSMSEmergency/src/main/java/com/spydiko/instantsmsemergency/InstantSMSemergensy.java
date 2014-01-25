@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,6 +15,7 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -104,14 +104,14 @@ public class InstantSMSemergensy extends Application {
 		// Check
 		if (phoneNumber.contains("#")) {
 			String[] phoneNumbers = phoneNumber.split("#");
-			phoneNumber="";
+			phoneNumber = "";
 			for (String phone : phoneNumbers) {
 				if (!phone.equals("")) {
-					phoneNumber = phoneNumber.concat(phone+"#");
+					phoneNumber = phoneNumber.concat(phone + "#");
 				}
 			}
 		}
-		if (debugging)Log.d(TAG,phoneNumber);
+		if (debugging) Log.d(TAG, phoneNumber);
 		editor.putString("phoneNumber", phoneNumber);
 		editor.putString("textToBeSent", textToBeSent);
 		editor.putBoolean("serviceRunning", serviceRunning);
@@ -137,7 +137,8 @@ public class InstantSMSemergensy extends Application {
 	public void setPhoneRinging(boolean b) {
 		phoneRinging = b;
 	}
-	public boolean getPhoneRinging (){
+
+	public boolean getPhoneRinging() {
 		return phoneRinging;
 	}
 
@@ -151,19 +152,30 @@ public class InstantSMSemergensy extends Application {
 			double lont = currentBestLocation.getLongitude();
 			long time_cur = currentBestLocation.getTime();
 			if (currentBestLocation != null) {
-				if (debugging) Log.d(TAG,"Difference:" +(System.currentTimeMillis() - time_cur));
-				if (System.currentTimeMillis() - time_cur< TWO_MINUTES) {
-					String http = "http://maps.google.com/?q=" + String.valueOf(lat) + "," + String.valueOf(lont + " ");
+				if (debugging) Log.d(TAG, "Difference:" + (System.currentTimeMillis() - time_cur));
+				if (System.currentTimeMillis() - time_cur < TWO_MINUTES) {
+					String http = "http://maps.google.com/?q=" + String.valueOf(lat) + "," + String.valueOf(lont + ", ");
 					message = http.concat(message);
 				} else if (isLastKnownLocation()) {
-					String http = "http://maps.google.com/?q=" + String.valueOf(lat) + "," + String.valueOf(lont + " ");
+					String http = "http://maps.google.com/?q=" + String.valueOf(lat) + "," + String.valueOf(lont + ", ");
 					message = http.concat(message);
 				}
 				Geocoder myLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
 				try {
 					List<Address> myList = myLocation.getFromLocation(lat, lont, 1);
-					for (Address address : myList){
-						Log.d(TAG,address.toString());
+					for (Address address : myList) {
+						Log.d(TAG, address.toString());
+						String read_address = "";
+						int i = 0;
+						while (true) {
+							String temp = address.getAddressLine(i);
+							if (temp == null) break;
+							read_address = read_address.concat(", " + temp);
+							i++;
+						}
+						Log.d(TAG, read_address);
+						message = message.concat(read_address);
+
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -172,19 +184,23 @@ public class InstantSMSemergensy extends Application {
 			}
 		}
 		SmsManager smsManager = SmsManager.getDefault();
+		ArrayList<String> parts = smsManager.divideMessage(message);
+		if (debugging) Log.d(TAG, "MESSAGE: " + message);
 		if (phoneNumber.contains("#")) {
 			String[] phoneNumbers = phoneNumber.split("#");
 			for (String phone : phoneNumbers) {
 				if (!phone.equals("")) {
-					String [] phoneToSend = phone.split("_name_:");
-					if (!message.equals("")) smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
+					String[] phoneToSend = phone.split("_name_:");
+					//					if (!message.equals("")) smsManager.sendTextMessage(phoneToSend[0], null, messageUTF.toString(), null, null);
+					if (!message.equals("")) smsManager.sendMultipartTextMessage(phoneToSend[0], null, parts, null, null);
 					if (debugging) Log.d(TAG, "multiple phone number to text: " + phone);
 				}
 			}
 		} else {
 			if (!phoneNumber.equals("")) {
-				String [] phoneToSend = phoneNumber.split("_name_:");
-				if (!message.equals("")) smsManager.sendTextMessage(phoneToSend[0], null, message, null, null);
+				String[] phoneToSend = phoneNumber.split("_name_:");
+				//				if (!message.equals("")) smsManager.sendTextMessage(phoneToSend[0], null, messageUTF.toString(), null, null);
+				if (!message.equals("")) smsManager.sendMultipartTextMessage(phoneToSend[0], null, parts, null, null);
 				if (debugging) Log.d(TAG, "simple phone number to text: " + phoneNumber);
 			}
 		}
@@ -277,13 +293,12 @@ public class InstantSMSemergensy extends Application {
 	};
 
 	public boolean isNotification() {
-		return prefs.getBoolean("permanent_notification",false);
+		return prefs.getBoolean("permanent_notification", false);
 	}
 
 	public Resources getMyResources() {
 		return getResources();
 	}
-
 
 
 	// ----------------------------------------****************************---------------------------------------------------------------------
