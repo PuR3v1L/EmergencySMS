@@ -109,7 +109,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			ViewTarget target = new ViewTarget(R.id.add_contact, this);
 			//		sv = ShowcaseView.insertShowcaseView(new ViewTarget(findViewById(R.id.serviceState)), this);
 			sv = ShowcaseView.insertShowcaseView(target, this, R.string.showcase_title, R.string.showcase_message, co);
-			sv.setScaleMultiplier(0.8f);
 			sv.overrideButtonClick(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {

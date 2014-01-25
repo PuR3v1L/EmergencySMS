@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,6 +14,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jim on 4/11/2013.
@@ -141,15 +147,28 @@ public class InstantSMSemergensy extends Application {
 		String message = getTextToBeSent();
 		if (isGetLocation()) {
 			getBestCurrentLocation();
+			double lat = currentBestLocation.getLatitude();
+			double lont = currentBestLocation.getLongitude();
+			long time_cur = currentBestLocation.getTime();
 			if (currentBestLocation != null) {
-				if (debugging) Log.d(TAG,"Difference:" +(System.currentTimeMillis() - currentBestLocation.getTime()));
-				if (System.currentTimeMillis() - currentBestLocation.getTime() < TWO_MINUTES) {
-					String http = "http://maps.google.com/?q=" + String.valueOf(currentBestLocation.getLatitude()) + "," + String.valueOf(currentBestLocation.getLongitude() + " ");
+				if (debugging) Log.d(TAG,"Difference:" +(System.currentTimeMillis() - time_cur));
+				if (System.currentTimeMillis() - time_cur< TWO_MINUTES) {
+					String http = "http://maps.google.com/?q=" + String.valueOf(lat) + "," + String.valueOf(lont + " ");
 					message = http.concat(message);
 				} else if (isLastKnownLocation()) {
-					String http = "http://maps.google.com/?q=" + String.valueOf(currentBestLocation.getLatitude()) + "," + String.valueOf(currentBestLocation.getLongitude() + " ");
+					String http = "http://maps.google.com/?q=" + String.valueOf(lat) + "," + String.valueOf(lont + " ");
 					message = http.concat(message);
 				}
+				Geocoder myLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
+				try {
+					List<Address> myList = myLocation.getFromLocation(lat, lont, 1);
+					for (Address address : myList){
+						Log.d(TAG,address.toString());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 			}
 		}
 		SmsManager smsManager = SmsManager.getDefault();
