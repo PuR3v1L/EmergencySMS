@@ -20,7 +20,7 @@ public class InstantSMSemergensy extends Application {
 
 	private static final String TAG = "InstantSMSemergency";
 	private String phoneNumber, textToBeSent;
-	public static final Boolean debugging = false;
+	public static final Boolean debugging = true;
 	private LocationManager locationManager;
 	private Location currentBestLocation;
 	private static final int TWO_MINUTES = 1000 * 60 * 2;
@@ -29,6 +29,7 @@ public class InstantSMSemergensy extends Application {
 	private boolean serviceRunning;
 	private static SharedPreferences prefs;
 	private static SharedPreferences.Editor editor;
+	private boolean phoneRinging = false;
 
 
 	public boolean isServiceRunning() {
@@ -126,6 +127,14 @@ public class InstantSMSemergensy extends Application {
 	public boolean isLastKnownLocation() {
 		return prefs.getBoolean("last_known_location", true);
 	}
+
+	public void setPhoneRinging(boolean b) {
+		phoneRinging = b;
+	}
+	public boolean getPhoneRinging (){
+		return phoneRinging;
+	}
+
 
 	public void sendSMS() {
 		String phoneNumber = getPhoneNumber().trim();
@@ -255,6 +264,7 @@ public class InstantSMSemergensy extends Application {
 	public Resources getMyResources() {
 		return getResources();
 	}
+
 
 
 	// ----------------------------------------****************************---------------------------------------------------------------------
