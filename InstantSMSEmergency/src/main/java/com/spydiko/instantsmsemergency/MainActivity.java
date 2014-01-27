@@ -185,6 +185,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			case R.id.preferences:
 				startActivity(new Intent(this, PrefsActivity.class));
 				break;
+			case R.id.license:
+				startActivity(new Intent(this, Licence.class));
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

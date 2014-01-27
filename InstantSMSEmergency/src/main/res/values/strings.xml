@@ -53,6 +53,7 @@
     <string name="tutorial">Tutorial</string>
     <string name="tutorial_on">Tutorial will be shown on restart</string>
     <string name="tutorial_off">Tutorial won\'t be shown</string>
+    <string name="titleLicense">Licence</string>
 
 
 </resources>
